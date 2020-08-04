@@ -9,9 +9,10 @@ const searchRequest = () => ({
   type: DAUM_SEARCH_REQUEST,
 });
 
-const searchSuccess = (result: SearchResult) => ({
+const searchSuccess = (result: SearchResult, keyword: string) => ({
   type: DAUM_SEARCH_SUCCESS,
   result,
+  keyword,
 });
 
 const searchFailure = (error: any) => ({
@@ -49,7 +50,7 @@ export const fetchSearch = (keyword: string) => async (dispatch: any) => {
     }
 
     const searchResult = await res.json();
-    dispatch(searchSuccess(searchResult));
+    dispatch(searchSuccess(searchResult, keyword));
   } catch (error) {
     // dispatch(searchFailure(error));
   }

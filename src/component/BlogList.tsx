@@ -29,7 +29,6 @@ interface Props {
 
 const BlogList = (props: Props) => {
   const documents = props.useSearch ? props.showDocuments : props.showBookmark;
-
   const setBookmark = (isBookmark: boolean, blogUrl: string) => {
     if (isBookmark) {
       const index = props.bookmark.findIndex((url: string) => url === blogUrl);
@@ -38,9 +37,10 @@ const BlogList = (props: Props) => {
       props.addBookmark(blogUrl);
     }
   };
+
   return (
     <div className="grid-container">
-      {documents?.map((blog: BlogSource, index: number) => {
+      {documents.map((blog: BlogSource, index: number) => {
         const title = { __html: blog.title };
         const contents = { __html: blog.contents };
         return (
@@ -70,17 +70,19 @@ const BlogList = (props: Props) => {
 };
 
 const mapStateToProps = (state: {
-  searchResult: SearchResult;
+  searchResult: any;
   bookmark: [];
   documents: NewDocuments;
 }) => {
-  const { documents, bookmark } = state;
+  const {
+    documents,
+    bookmark,
+    searchResult: { docUrl = [] },
+  } = state;
 
   return {
-    showDocuments: Object.values(documents),
-    showBookmark: bookmark.map((url: string) => {
-      return documents[url];
-    }),
+    showDocuments: docUrl.map((url: string) => documents[url]),
+    showBookmark: bookmark.map((url: string) => documents[url]),
     bookmark,
   };
 };

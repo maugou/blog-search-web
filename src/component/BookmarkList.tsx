@@ -13,9 +13,8 @@ export const BookmarkList = () => {
           <FontAwesomeIcon icon={faSearch} /> 블로그 검색
         </div>
       </Link>
-      <div>
-        <BlogList />
-      </div>
+
+      <BlogList />
     </div>
   );
 };

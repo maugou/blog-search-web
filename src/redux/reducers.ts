@@ -13,26 +13,35 @@ interface Action {
   result: SearchResult;
   blogUrl: string;
   index: number;
+  keyword: string;
 }
 
-const getSearchResult = (state = {}, action: Action) => {
+const searchResult = (state = {}, action: Action) => {
   switch (action.type) {
     case DAUM_SEARCH_REQUEST:
       return { ...state, isFetching: true };
 
     case DAUM_SEARCH_SUCCESS:
       const { documents, ...meta } = action.result;
-      return { ...state, meta, isFetching: false };
+      const docUrl = documents.map((blog: { url: string }) => blog.url);
+
+      return {
+        ...state,
+        ...meta,
+        docUrl,
+        keyword: action.keyword,
+        isFetching: false,
+      };
 
     case DAUM_SEARCH_FAILURE:
-      return { ...state, meta, isFetching: false };
+      return { ...state, isFetching: false };
 
     default:
       return state;
   }
 };
 
-const getBookmark = (state = [], action: Action) => {
+const bookmark = (state = [], action: Action) => {
   switch (action.type) {
     case ADD_BOOKMARK:
       return [...state, action.blogUrl];
@@ -47,7 +56,7 @@ const getBookmark = (state = [], action: Action) => {
   }
 };
 
-const setDocuments = (state: NewDocuments = {}, action: Action) => {
+const documents = (state: NewDocuments = {}, action: Action) => {
   switch (action.type) {
     case DAUM_SEARCH_SUCCESS:
       let documents = {};
@@ -75,7 +84,7 @@ const setDocuments = (state: NewDocuments = {}, action: Action) => {
 };
 
 export default combineReducers({
-  searchResult: getSearchResult,
-  bookmark: getBookmark,
-  documents: setDocuments,
+  searchResult,
+  bookmark,
+  documents,
 });
