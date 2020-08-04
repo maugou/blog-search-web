@@ -4,7 +4,9 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import Home from "./component/Home";
 import { BookmarkList } from "./component/BookmarkList";
-import { store } from "./redux/store";
+import { configureStore } from "./redux/store";
+
+const store = configureStore();
 
 function App() {
   return (
