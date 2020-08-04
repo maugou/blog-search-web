@@ -6,35 +6,41 @@ import { faStar as fasFaStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farFaStar } from "@fortawesome/free-regular-svg-icons";
 
 import "../style/blog_list.css";
-import { setBookmark } from "../redux/actions";
+import { addBookmark, deleteBookmark } from "../redux/actions";
 
-interface SearchedBlog {
-  meta?: {
-    total_count: number;
-    pageable_count: number;
-    is_end: boolean;
-  };
-  documents?: {
-    title: string;
-    contents: string;
-    url: string;
-    blogname: string;
-    thumbnail: string;
-    datetime: string;
-  }[];
+interface BlogSource {
+  title: string;
+  contents: string;
+  url: string;
+  blogname: string;
+  thumbnail: string;
+  datetime: string;
+  isBookmark: boolean;
 }
 
-interface Props extends SearchedBlog {
-  setBookmark: (blog: {}[]) => void;
+interface Props {
+  addBookmark: (blogUrl: string) => void;
+  deleteBookmark: (index: number, blogUrl: string) => void;
   useSearch?: boolean;
+  bookmark: string[];
+  showDocuments: BlogSource[];
+  showBookmark: BlogSource[];
 }
 
 const BlogList = (props: Props) => {
-  const documents = props.useSearch ? props.documents : [];
+  const documents = props.useSearch ? props.showDocuments : props.showBookmark;
 
+  const setBookmark = (isBookmark: boolean, blogUrl: string) => {
+    if (isBookmark) {
+      const index = props.bookmark.findIndex((url: string) => url === blogUrl);
+      if (index !== -1) props.deleteBookmark(index, blogUrl);
+    } else {
+      props.addBookmark(blogUrl);
+    }
+  };
   return (
     <div className="grid-container">
-      {documents?.map((blog: any, index: number) => {
+      {documents?.map((blog: BlogSource, index: number) => {
         const title = { __html: blog.title };
         const contents = { __html: blog.contents };
         return (
@@ -46,7 +52,10 @@ const BlogList = (props: Props) => {
                 <img src={blog.thumbnail} />
               </div>
             </a>
-            <span className="bookmark" onClick={() => props.setBookmark(blog)}>
+            <span
+              className="bookmark"
+              onClick={() => setBookmark(blog.isBookmark, blog.url)}
+            >
               <FontAwesomeIcon icon={blog.isBookmark ? fasFaStar : farFaStar} />{" "}
               즐겨찾기
             </span>
@@ -60,13 +69,22 @@ const BlogList = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: { searchedBlog: SearchedBlog }) => {
-  const {
-    searchedBlog: { documents },
-  } = state;
-  return { documents };
+const mapStateToProps = (state: {
+  searchResult: SearchResult;
+  bookmark: [];
+  documents: NewDocuments;
+}) => {
+  const { documents, bookmark } = state;
+
+  return {
+    showDocuments: Object.values(documents),
+    showBookmark: bookmark.map((url: string) => {
+      return documents[url];
+    }),
+    bookmark,
+  };
 };
 
-const mapDispatchToProps = { setBookmark };
+const mapDispatchToProps = { addBookmark, deleteBookmark };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogList);
