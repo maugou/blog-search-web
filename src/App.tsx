@@ -1,12 +1,20 @@
 import React from "react";
-import Home from "./component/Home";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { BrowserRouter, Route } from "react-router-dom";
+
+import Home from "./component/Home";
+import { BookmarkList } from "./component/BookmarkList";
+import { configureStore } from "./redux/store";
+
+const store = configureStore();
 
 function App() {
   return (
     <Provider store={store}>
-      <Home />
+      <BrowserRouter>
+        <Route path="/" exact component={Home} />
+        <Route path="/bookmark" component={BookmarkList} />
+      </BrowserRouter>
     </Provider>
   );
 }

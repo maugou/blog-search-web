@@ -13,7 +13,19 @@ interface SearchResult {
       url: string;
       blogname: string;
       thumbnail: string;
-      datetime: Date;
+      datetime: string;
     }
   ];
+}
+
+interface NewDocuments {
+  [key: string]: {
+    title: string;
+    contents: string;
+    url: string;
+    blogname: string;
+    thumbnail: string;
+    datetime: string;
+    isBookmark: boolean;
+  };
 }
