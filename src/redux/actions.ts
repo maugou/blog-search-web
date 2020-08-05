@@ -1,3 +1,6 @@
+//@ts-ignore
+import { fetch } from "whatwg-fetch";
+
 export const DAUM_SEARCH_REQUEST = "DAUM_SEARCH_REQUEST";
 export const DAUM_SEARCH_SUCCESS = "DAUM_SEARCH_SUCCESS";
 export const DAUM_SEARCH_FAILURE = "DAUM_SEARCH_FAILURE";
