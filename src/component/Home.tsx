@@ -44,7 +44,11 @@ const Home = (props: Props) => {
   if (props.isFetching) {
     content = (
       <div className="spinner">
-        <img src={require("../images/spinner.gif")} width={70} />
+        <img
+          src={require("../images/spinner.gif")}
+          alt={require("../images/spinner.gif")}
+          width={70}
+        />
       </div>
     );
   } else if (props.error) {
