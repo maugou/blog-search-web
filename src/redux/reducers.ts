@@ -86,16 +86,6 @@ const documents = (state: any = {}, action: Action) => {
       }
       return { ...state, ...documents };
 
-    case ADD_BOOKMARK:
-    case DELETE_BOOKMARK:
-      return {
-        ...state,
-        [action.blogUrl]: {
-          ...state[action.blogUrl],
-          isBookmark: !state[action.blogUrl].isBookmark,
-        },
-      };
-
     default:
       return state;
   }

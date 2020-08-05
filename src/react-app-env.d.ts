@@ -26,12 +26,12 @@ interface Store {
       pageable_count: number;
       is_end: boolean;
     };
-    docUrl: [];
+    docUrl: string[];
     keyword: string;
     pageNumber: number;
     error: boolean;
   };
-  bookmark: [];
+  bookmark: string[];
   documents: {
     [key: string]: {
       title: string;

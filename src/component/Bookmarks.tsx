@@ -33,7 +33,10 @@ const mapStateToProps = (state: Store) => {
   const { documents, bookmark } = state;
 
   return {
-    results: bookmark.map((url: string) => documents[url]),
+    results: bookmark.map((url: string) => ({
+      ...documents[url],
+      isBookmark: true,
+    })),
   };
 };
 

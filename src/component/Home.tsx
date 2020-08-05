@@ -123,6 +123,7 @@ const mapStateToProps = (state: Store) => {
   const {
     documents,
     searchInfo: { meta, keyword, pageNumber, isFetching, error, docUrl },
+    bookmark,
   } = state;
 
   return {
@@ -131,7 +132,10 @@ const mapStateToProps = (state: Store) => {
     pageNumber,
     isFetching,
     error,
-    results: docUrl.map((url: string) => documents[url]),
+    results: docUrl.map((url: string) => ({
+      ...documents[url],
+      isBookmark: bookmark.includes(url),
+    })),
   };
 };
 
