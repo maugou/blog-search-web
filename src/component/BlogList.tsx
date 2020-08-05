@@ -70,14 +70,14 @@ const BlogList = (props: Props) => {
 };
 
 const mapStateToProps = (state: {
-  searchResult: any;
+  searchInfo: SearchInfo;
   bookmark: [];
   documents: NewDocuments;
 }) => {
   const {
     documents,
     bookmark,
-    searchResult: { docUrl = [] },
+    searchInfo: { docUrl = [] },
   } = state;
 
   return {

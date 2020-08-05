@@ -9,10 +9,15 @@ const searchRequest = () => ({
   type: DAUM_SEARCH_REQUEST,
 });
 
-const searchSuccess = (result: SearchResult, keyword: string) => ({
+const searchSuccess = (
+  result: SearchResult,
+  keyword: string,
+  page: number
+) => ({
   type: DAUM_SEARCH_SUCCESS,
   result,
   keyword,
+  page,
 });
 
 const searchFailure = (error: any) => ({
@@ -31,9 +36,11 @@ export const deleteBookmark = (index: number, blogUrl: string) => ({
   blogUrl,
 });
 
-export const fetchSearch = (keyword: string) => async (dispatch: any) => {
+export const fetchSearch = (keyword: string, page: number) => async (
+  dispatch: any
+) => {
   const restApiKey = process.env.REACT_APP_API_KEY;
-  const query = `?query=${keyword}`;
+  const query = `?query=${keyword}&page=${page}`;
 
   dispatch(searchRequest());
 
@@ -50,7 +57,7 @@ export const fetchSearch = (keyword: string) => async (dispatch: any) => {
     }
 
     const searchResult = await res.json();
-    dispatch(searchSuccess(searchResult, keyword));
+    dispatch(searchSuccess(searchResult, keyword, page));
   } catch (error) {
     // dispatch(searchFailure(error));
   }

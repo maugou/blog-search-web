@@ -14,9 +14,10 @@ interface Action {
   blogUrl: string;
   index: number;
   keyword: string;
+  page: number;
 }
 
-const searchResult = (state = {}, action: Action) => {
+const searchInfo = (state = {}, action: Action) => {
   switch (action.type) {
     case DAUM_SEARCH_REQUEST:
       return { ...state, isFetching: true };
@@ -30,6 +31,7 @@ const searchResult = (state = {}, action: Action) => {
         ...meta,
         docUrl,
         keyword: action.keyword,
+        pageNumber: action.page,
         isFetching: false,
       };
 
@@ -84,7 +86,7 @@ const documents = (state: NewDocuments = {}, action: Action) => {
 };
 
 export default combineReducers({
-  searchResult,
+  searchInfo,
   bookmark,
   documents,
 });

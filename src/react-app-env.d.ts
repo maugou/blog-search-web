@@ -29,3 +29,15 @@ interface NewDocuments {
     isBookmark: boolean;
   };
 }
+
+interface SearchInfo {
+  isFetching: boolean;
+  meta: {
+    total_count: number;
+    pageable_count: number;
+    is_end: boolean;
+  };
+  docUrl: [];
+  keyword: string;
+  pageNumber: number;
+}
