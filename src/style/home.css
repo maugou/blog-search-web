@@ -27,6 +27,12 @@
 .search-result {
   margin: 50px 20%;
   font-size: 19px;
+  line-height: 4rem;
+}
+
+.notice {
+  font-size: 15px;
+  line-height: 2rem;
 }
 
 .issuesPagination .selected a {

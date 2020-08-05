@@ -20,23 +20,22 @@ const searchSuccess = (
   page,
 });
 
-const searchFailure = (error: any) => ({
+const searchFailure = () => ({
   type: DAUM_SEARCH_FAILURE,
-  error,
 });
 
-export const addBookmark = (blogUrl: string) => ({
+const addBookmark = (blogUrl: string) => ({
   type: ADD_BOOKMARK,
   blogUrl,
 });
 
-export const deleteBookmark = (index: number, blogUrl: string) => ({
+const deleteBookmark = (index: number, blogUrl: string) => ({
   type: DELETE_BOOKMARK,
   index,
   blogUrl,
 });
 
-export const fetchSearch = (keyword: string, page: number) => async (
+export const fetchBlogs = (keyword: string, page: number) => async (
   dispatch: any
 ) => {
   const restApiKey = process.env.REACT_APP_API_KEY;
@@ -55,10 +54,22 @@ export const fetchSearch = (keyword: string, page: number) => async (
     if (res.status !== 200) {
       throw new Error();
     }
-
     const searchResult = await res.json();
+
     dispatch(searchSuccess(searchResult, keyword, page));
   } catch (error) {
-    // dispatch(searchFailure(error));
+    dispatch(searchFailure());
+  }
+};
+
+export const toggleBookmark = (blogUrl: string) => (
+  dispatch: any,
+  getState: any
+) => {
+  const index = getState().bookmark.findIndex((url: string) => url === blogUrl);
+  if (index !== -1) {
+    dispatch(deleteBookmark(index, blogUrl));
+  } else {
+    dispatch(addBookmark(blogUrl));
   }
 };

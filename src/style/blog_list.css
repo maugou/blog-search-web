@@ -46,6 +46,11 @@ a:visited {
   cursor: pointer;
 }
 
+.spinner {
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 750px) {
   .grid-container {
     grid-template-columns: 100%;

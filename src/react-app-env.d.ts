@@ -18,26 +18,39 @@ interface SearchResult {
   ];
 }
 
-interface NewDocuments {
-  [key: string]: {
-    title: string;
-    contents: string;
-    url: string;
-    blogname: string;
-    thumbnail: string;
-    datetime: string;
-    isBookmark: boolean;
+interface Store {
+  searchInfo: {
+    isFetching: boolean;
+    meta: {
+      total_count: number;
+      pageable_count: number;
+      is_end: boolean;
+    };
+    docUrl: [];
+    keyword: string;
+    pageNumber: number;
+    error: boolean;
+  };
+  bookmark: [];
+  documents: {
+    [key: string]: {
+      title: string;
+      contents: string;
+      url: string;
+      blogname: string;
+      thumbnail: string;
+      datetime: string;
+      isBookmark: boolean;
+    };
   };
 }
 
-interface SearchInfo {
-  isFetching: boolean;
-  meta: {
-    total_count: number;
-    pageable_count: number;
-    is_end: boolean;
-  };
-  docUrl: [];
-  keyword: string;
-  pageNumber: number;
+interface BlogSource {
+  title: string;
+  contents: string;
+  url: string;
+  blogname: string;
+  thumbnail: string;
+  datetime: string;
+  isBookmark: boolean;
 }

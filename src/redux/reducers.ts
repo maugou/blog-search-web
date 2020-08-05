@@ -15,9 +15,19 @@ interface Action {
   index: number;
   keyword: string;
   page: number;
+  error: boolean;
 }
 
-const searchInfo = (state = {}, action: Action) => {
+const infoInitialState = {
+  docUrl: [],
+  meta: {},
+  pageNumber: 1,
+  keyword: "",
+  isFetching: false,
+  error: false,
+};
+
+const searchInfo = (state = infoInitialState, action: Action) => {
   switch (action.type) {
     case DAUM_SEARCH_REQUEST:
       return { ...state, isFetching: true };
@@ -33,10 +43,15 @@ const searchInfo = (state = {}, action: Action) => {
         keyword: action.keyword,
         pageNumber: action.page,
         isFetching: false,
+        error: false,
       };
 
     case DAUM_SEARCH_FAILURE:
-      return { ...state, isFetching: false };
+      return {
+        ...infoInitialState,
+        isFetching: false,
+        error: true,
+      };
 
     default:
       return state;
@@ -49,16 +64,17 @@ const bookmark = (state = [], action: Action) => {
       return [...state, action.blogUrl];
 
     case DELETE_BOOKMARK:
-      let bookmark = [...state];
-      bookmark.splice(action.index, 1);
-      return bookmark;
+      return [
+        ...state.slice(0, action.index),
+        ...state.slice(action.index + 1),
+      ];
 
     default:
       return state;
   }
 };
 
-const documents = (state: NewDocuments = {}, action: Action) => {
+const documents = (state: any = {}, action: Action) => {
   switch (action.type) {
     case DAUM_SEARCH_SUCCESS:
       let documents = {};
