@@ -41,7 +41,7 @@ const deleteBookmark = (index: number, blogUrl: string) => ({
 export const fetchBlogs = (keyword: string, page: number) => async (
   dispatch: any
 ) => {
-  const restApiKey = process.env.REACT_APP_API_KEY;
+  const restApiKey = process.env.REACT_APP_KAKAO_API_KEY;
   const query = `?query=${keyword}&page=${page}`;
 
   dispatch(searchRequest());
